@@ -11,26 +11,85 @@ import Topbar from './Topbar'
 
 export const ClickedContext = createContext(false)
 
+// export const App = () => {
+//   const [clicked, setClicked] = useState(false)
+//   return (
+//     <ClickedContext.Provider value={{ clicked, setClicked }}>
+//       <Topbar/>
+//       <div className="container">
+//         <div className='heading'>
+//         <h1 style={{fontWeight:400}}>We help brands <br />
+//           make videos <span className='underlined'>that work</span></h1>
+//         </div>
+//         <Canvas camera={{ position: [0, 0, 17], fov: 15 }}>
+//           <fog attach="fog" args={['#a79', 8.5, 12]} />
+//           <primitive attach="background" object={new THREE.Color('black')} />
+//           <Rig>
+//           <mesh scale={1}>
+//           <Carousel />
+//           </mesh>
+//           </Rig>
+//           <mesh scale={1}>
+//             <Later />
+//           </mesh>
+//         </Canvas>
+//       </div>
+
+//     </ClickedContext.Provider>
+//   )
+// }
 export const App = () => {
-  const [clicked, setClicked] = useState(false)
+  const [clicked, setClicked] = useState(false);
+  const headingRef = useRef();
+  console.log(clicked);
+
+  useEffect(() => {
+    // Trigger exit animation when `clicked` changes
+    
+      if(!clicked){
+        headingRef.current.classList.remove('exit-animation');
+        headingRef.current.classList.add('appear-animation');
+        headingRef.current.style.opacity='100'; //set opacity to 0
+
+      }
+      else {
+        headingRef.current.classList.remove('appear-animation');
+        headingRef.current.classList.add('exit-animation');
+        headingRef.current.style.opacity='0'; //set opacity to 0
+      }
+    
+  }, [clicked]);
+
   return (
     <ClickedContext.Provider value={{ clicked, setClicked }}>
-      <Topbar/>
-      <Canvas camera={{ position: [0, 0, 17], fov: 15 }}>
+      <Topbar />
+      <div className="container">
+        <div className='heading'>
+          <h1
+            ref={headingRef}
+            className='appear-animation'
+            style={{ fontWeight: 400 }}
+          >
+            We help brands <br />
+            make videos <span className='underlined'>that work</span>
+          </h1>
+        </div>
+        <Canvas camera={{ position: [0, 0, 17], fov: 15 }}>
         <fog attach="fog" args={['#a79', 8.5, 12]} />
-        <primitive attach="background" object={new THREE.Color('black')}/>
-        <Rig>
+          <primitive attach="background" object={new THREE.Color('black')} />
+          <Rig>
           <mesh scale={1}>
-            <Carousel />
+          <Carousel />
           </mesh>
-        </Rig>
-        <mesh scale={1}>
-          <Later/>
-        </mesh>
-      </Canvas>
+          </Rig>
+          <mesh scale={1}>
+            <Later />
+          </mesh>
+        </Canvas>
+      </div>
     </ClickedContext.Provider>
-  )
-}
+  );
+};
 
 function Rig(props) {
   const { clicked } = useContext(ClickedContext);
@@ -39,8 +98,8 @@ function Rig(props) {
 
   useFrame((state, delta) => {
     if (!clicked) {
-      parentRef.current.rotation.z = THREE.MathUtils.degToRad(-20)
-      parentRef.current.rotation.x = THREE.MathUtils.degToRad(10)
+      parentRef.current.rotation.z = THREE.MathUtils.degToRad(-25)
+      parentRef.current.rotation.x = THREE.MathUtils.degToRad(20)
       childRef.current.rotation.y += delta * 0.5
       childRef.current.position.set(-.5,-0.5,0)
     } else {

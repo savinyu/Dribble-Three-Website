@@ -3,27 +3,31 @@ import { ClickedContext } from "./App";
 import gsap from "gsap";
 
 const Topbar = () => {
-  const { setClicked } = useContext(ClickedContext);
+  const { clicked,setClicked } = useContext(ClickedContext);
   const overlayRef = useRef();
 
   const resetPage = () => {
+    if(!clicked){
+      return;
+    }
     setClicked(false);
-    gsap.to(overlayRef.current, {
-      scale: 200, // A large enough scale to cover the entire screen
-      duration: 6, // Adjust duration for a smooth animation
-      ease: "power2.inOut",
-      onComplete: () => {
-        // Hold the black screen for 1 second before resetting
-        setTimeout(() => {
-          // Perform any reset or additional actions here
-          // For example, you could reset the scale, or navigate to another page
-          gsap.to(overlayRef.current, {
-            scale: 0, // Reset the scale
-            duration: 0, // Instantly reset to initial state
-          });
-        }, 100); // 1-second delay
-      },
-    });
+    window.location.reload();
+    // gsap.to(overlayRef.current, {
+    //   scale: 200, // A large enough scale to cover the entire screen
+    //   duration: 6, // Adjust duration for a smooth animation
+    //   ease: "power2.inOut",
+    //   onComplete: () => {
+    //     // Hold the black screen for 1 second before resetting
+    //     setTimeout(() => {
+    //       // Perform any reset or additional actions here
+    //       // For example, you could reset the scale, or navigate to another page
+    //       gsap.to(overlayRef.current, {
+    //         scale: 0, // Reset the scale
+    //         duration: 0, // Instantly reset to initial state
+    //       });
+    //     }, 100); // 1-second delay
+    //   },
+    // });
   };
 
   return (

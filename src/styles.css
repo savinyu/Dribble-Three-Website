@@ -1,4 +1,5 @@
 @import url('https://rsms.me/inter/inter.css');
+@import url('https://fonts.cdnfonts.com/css/switzer');
 
 * {
   box-sizing: border-box;
@@ -79,16 +80,83 @@ canvas {
   padding: 10px;
   padding-left: 30px;
 }
+
 .circular-overlay {
+  position: fixed;
+  top: 50%; /* Start from the center */
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  background-color: black;
+  border-radius: 50%;
+  transform: scale(0) translate(-50%, -50%); /* Center the circle */
+  transform-origin: center; /* Expand from the center */
+  pointer-events: none; /* Disable interaction */
+  z-index: 999; /* Above other elements */
+}
+
+.fade-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   background-color: black;
-  border-radius: 50%; /* Make it circular */
-  transform: scale(0); /* Initially hidden as a small circle */
-  transform-origin: top left; /* Origin is top-left corner */
-  pointer-events: none; /* Ensure it doesn't block interaction */
-  z-index: 999; /* Ensure it's above everything else during the transition */
+  opacity: 0; /* Initially transparent */
+  pointer-events: none;
+  z-index: 998; /* Just below the circle */
+}
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100px); /* Start from below */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Move to its final position */
+  }
+}
+
+@keyframes slideLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(00px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-1000px);
+  }
+}
+
+.heading {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  transform: translate(-50%, -30%);
+  z-index: 10; /* Ensure it appears above the canvas */
+  color: #fff; /* Set text color */
+  font-family: 'Switzer', sans-serif;
+  /* font-weight: ; Use semibold */
+  font-size: 400%;
+  pointer-events: none; /* Ensure the text doesn't interfere with pointer events */
+  opacity: 0; /* Start hidden */
+  animation: slideUp 0.5s ease-out forwards;
+}
+
+.appear-animation {
+  animation: slideUp 1s ease-out;
+}
+
+.exit-animation {
+  animation: slideLeft 0.5s ease-out;
+}
+
+.underlined {
+  text-decoration: underline;
 }
